@@ -4,3 +4,6 @@ ipset create cf hash:net
 for x in $(curl https://www.cloudflare.com/ips-v4); do ipset add cf $x; done
 #You can use the 'cf' set now in a iptables rule like so:
 iptables -A INPUT -m set --match-set cf src -p tcp -m multiport --dports http,https -j ACCEPT
+#Disallow direct connecting to your server IP:
+iptables -A INPUT -p tcp --dport http -j DROP
+iptables -A INPUT -p tcp --dport https -j DROP
